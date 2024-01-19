@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\buildMultiTargeting\ProblemAssignment2Rafia.props" />
+</Project>

@@ -1,0 +1,40 @@
+﻿@model ConfirmationViewModel
+
+@{
+    ViewData["Title"] = "Confirmation Response";
+}
+<div>
+    <h1>Confirmation Response</h1>
+    <h3>You have been invited to enroll in the @Model.Course.Name course!</h3>
+    <p>
+        Hey @Model.Student.Name,
+        you have been invited to enroll in the  "@Model.Course.Name" course in room @Model.Course.RoomNumber
+        starting on @Model.Course.StartDate?.ToString("d") with instructor @Model.Course.Instructor -
+        we would be thrilled to have you join us but ask that you confirm your enrollment!
+    </p>
+</div>
+<div>
+    <form asp-controller="Course" asp-action="ConfirmEnrollment"
+          asp-route-courseId="@Model.Course.CourseId" asp-route-studentId="@Model.Student.StudentId"
+          method="post" enctype="application/x-www-form-urlencoded">
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="row">
+            <div class="col-3">
+                <label>Do you want to enroll?</label>
+            </div>
+            <div class="col-2">
+                <input type="radio" id="yes" name="confirmationResponse" asp-for="Confirmation" value="yes">
+                <label for="yes">Yes</label>
+            </div>
+            <div class="col-2">
+                <input type="radio" id="no" name="confirmationResponse" asp-for="Confirmation" value="no">
+                <label for="no">No</label>
+            </div>
+            <div class="col-sm-2">
+                <button type="submit" class="btn btn-primary">Submit Response</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+

@@ -1,0 +1,95 @@
+﻿@model ManageCourseViewModel
+@{
+    ViewData["Title"] = "Manage Course";
+}
+<div>
+    <a asp-controller="Course" asp-action="GetAllCourses">All Courses</a>
+    <span class="mx-2">|</span>
+    <a asp-controller="Course" asp-action="GetEditForm" asp-route-id="@Model.ActiveCourse?.CourseId">Edit this Course</a>
+    <span class="mx-2">|</span>
+    <a asp-controller="Course" asp-action="GetAddForm">Add New Course</a>
+    </div>
+<div>
+    <h3>Course Summary:</h3>
+    <p>
+        The course "@Model.ActiveCourse.Name" is in room @Model.ActiveCourse.RoomNumber starting on @Model.ActiveCourse.StartDate?.ToString("d")
+        and the instructor is @Model.ActiveCourse.Instructor
+    </p>
+</div>
+<div>
+    <p>Invites not sent:@Model.ConfirmationMessageNotSentCount 
+        Invites Sent:@Model.ConfirmationMessageSentCount  
+        Confirmed Count:@Model.EnrollmentConfirmedCount  
+        Declined count:@Model.EnrollmentDeclinedCount</p>
+</div>
+<div>
+        <h3>Students</h3>
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Enrollment Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Student cs in Model.ActiveCourse.Students)
+                {
+                    <tr>
+                        <td>@cs.Name</td>
+                        <td>@cs.Email</td>
+                        <td>@cs.Status</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+</div>
+<div>
+    <form asp-controller="Course" asp-action="AddStudentToCourseById" asp-route-id="@Model.ActiveCourse.CourseId"
+          method="post"  enctype="application/x-www-form-urlencoded">
+        <!--placeholder for validation error message-->
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        <div class="row">
+            <div class="form-group col-1">
+            <label class="col-1" asp-for="NewStudent.Name">Name:</label>
+             </div>
+            <div class="form-group col-3">
+            <input type="text" asp-for="NewStudent.Name" class="form-control col-4" />
+            </div>
+            <div class="form-group col-1">
+            <label asp-for="NewStudent.Email">Email:</label>
+            </div>
+            <div class="form-group col-3">
+                <input type="email" asp-for="NewStudent.Email" class="form-control input-validation-error" />
+            </div>
+            <div class="col-sm-2">
+            <button type="submit" class="btn btn-primary">Create Student</button>
+            </div>
+        </div>
+    </form>
+</div>
+<div>
+    <h4>Actions:</h4>
+    <form asp-controller="Course" asp-action="SendConfirmationRequestsByCourseId" asp-route-id="@Model.ActiveCourse.CourseId"
+          method="post" enctype="application/x-www-form-urlencoded">
+        <!--placeholder for validation error message-->
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="row">
+            <div class="col-sm-4">
+                <button type="submit" class="btn btn-primary">Send Confirmation Messages</button>
+            </div>
+        </div>
+    </form>
+</div>
+<div>
+    @if (TempData["Message"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["Message"]
+        </div>
+        TempData["Message"] = null;
+    }
+</div>
+
+

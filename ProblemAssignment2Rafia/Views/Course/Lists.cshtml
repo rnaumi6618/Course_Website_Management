@@ -1,0 +1,49 @@
+﻿@model List<Course>
+@{
+    ViewData["Title"] = "All my Course";
+}
+
+<div>
+    <h3>All My Courses</h3>
+    <p>
+         <a asp-controller="Course" asp-action="GetAddForm">Add New Course</a>
+    </p>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Instructor</th>
+                <th>Start date</th>
+                <th>Room #</th>
+                <th># of Students</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Course cs in Model)
+            {
+                <tr>
+                    <td>@cs.Name</td>
+                    <td>@cs.Instructor</td>
+                    <td>@cs.StartDate</td>
+                    <td>@cs.RoomNumber</td>
+                    <td>@cs?.Students?.Count()</td>
+                    <td>
+                         <a asp-controller="Course" asp-action="GetCourseById" asp-route-id="@cs.CourseId">Manage</a>
+                        <span class="mx-2">|</span>
+                        <a asp-controller="Course" asp-action="GetEditForm" asp-route-id="@cs.CourseId">Edit</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div>
+    @if (TempData["Message"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show">
+            @TempData["Message"]
+        </div>
+        TempData["Message"] = null;
+    }
+</div>

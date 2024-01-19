@@ -1,0 +1,16 @@
+﻿@model ConfirmationViewModel
+@{
+    ViewData["Title"] = "Thank You";
+}
+<div>
+    @if (TempData["Message"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["Message"]
+        </div>
+        TempData["Message"] = null;
+    }
+</div>
+<h2>Thank You</h2>
+<p>Thank you for submitting your response! We are thrilled that you will be joining us!</p>
+

@@ -1,0 +1,34 @@
+﻿@model Course
+@{
+    ViewData["Title"] = "Edit Course Information";
+}
+
+<form asp-controller="Course" asp-action="EditCourse"
+      method="post" enctype="application/x-www-form-urlencoded">
+    <!--placeholder for validation error message-->
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div class="form-group">
+        <label asp-for="Name">Name:</label>
+        <input type="text" asp-for="Name" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Instructor">Instructor</label>
+        <input type="text" asp-for="Instructor" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="StartDate">Start Date:</label>
+        <input type="datetime" asp-for="StartDate" value="@Model.StartDate?.ToString("d")" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="RoomNumber">Room Number:</label>
+        <input type="text" asp-for="RoomNumber" class="form-control" />
+    </div>
+
+    <input type="hidden" asp-for="CourseId" />
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a asp-controller="Course" asp-action="GetAllCourses" class="btn btn-primary">Cancel</a>
+</form>
